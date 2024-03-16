@@ -87,8 +87,8 @@ services:
   zammad-nginx:
     <<: *zammad-service
     command: ["zammad-nginx"]
-    expose:
-      - "8080"
+    ports:
+      - 3000:8080
     depends_on:
       - zammad-railsserver
     volumes:
@@ -107,7 +107,8 @@ services:
   zammad-railsserver:
     <<: *zammad-service
     command: ["zammad-railsserver"]
-
+    volumes:
+      - ${PWD}/sets_header.rb:/opt/zammad/app/controllers/application_controller/sets_headers.rb
   zammad-redis:
     image: redis:${REDIS_VERSION}
     restart: ${RESTART}
